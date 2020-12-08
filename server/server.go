@@ -1,12 +1,15 @@
 package server
 
 import (
+	"ecommerce/config"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
 	"github.com/graphql-go/graphql"
+	"github.com/jmoiron/sqlx"
 )
 
 // Server ...
@@ -17,9 +20,10 @@ type Server struct {
 
 // New ...
 func New() *Server {
+	db := setupDB()
 	s := &Server{
 		router: mux.NewRouter(),
-		schema: NewSchema(),
+		schema: NewSchema(db),
 	}
 	s.schema.initSchema()
 	return s
@@ -48,4 +52,14 @@ func (s *Server) graphQLHandler(w http.ResponseWriter, req *http.Request) {
 	if err := json.NewEncoder(w).Encode(result); err != nil {
 		fmt.Printf("could not write result to response: %s", err)
 	}
+}
+
+func setupDB() *sqlx.DB {
+	conf := config.Get()
+	db, err := sqlx.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?parseTime=true", conf.MysqlUsername, conf.MysqlPassword, conf.MysqlHost, conf.MysqlDatabase))
+	if err != nil {
+		log.Printf("%v", err)
+	}
+	db.SetMaxOpenConns(conf.MysqlConnectionLimit)
+	return db
 }

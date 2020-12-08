@@ -4,6 +4,7 @@ import (
 	"ecommerce/domain/product"
 
 	"github.com/graphql-go/graphql"
+	"github.com/jmoiron/sqlx"
 )
 
 // Data ...
@@ -20,9 +21,9 @@ type Schema struct {
 }
 
 // NewSchema ...
-func NewSchema() *Schema {
+func NewSchema(db *sqlx.DB) *Schema {
 	s := &Schema{
-		productSchema: product.New(),
+		productSchema: product.New(db),
 	}
 	return s
 }

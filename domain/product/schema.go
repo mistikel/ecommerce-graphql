@@ -2,6 +2,7 @@ package product
 
 import (
 	"github.com/graphql-go/graphql"
+	"github.com/jmoiron/sqlx"
 )
 
 var productType = graphql.NewObject(
@@ -123,11 +124,11 @@ type Schema struct {
 }
 
 // New ...
-func New() *Schema {
+func New(db *sqlx.DB) *Schema {
 	s := &Schema{
 		query:    make(graphql.Fields),
 		mutation: make(graphql.Fields),
-		handler:  NewHandler(),
+		handler:  NewHandler(db),
 	}
 	s.setMutation()
 	s.setQuery()

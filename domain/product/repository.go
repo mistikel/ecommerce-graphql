@@ -1,5 +1,7 @@
 package product
 
+import "github.com/jmoiron/sqlx"
+
 var products = []Product{
 	{
 		ID:    1,
@@ -19,11 +21,15 @@ var products = []Product{
 }
 
 // Repository ...
-type Repository struct{}
+type Repository struct {
+	db *sqlx.DB
+}
 
 // newRepository ...
-func newRepository() *Service {
-	return &Service{}
+func newRepository(db *sqlx.DB) *Repository {
+	return &Repository{
+		db: db,
+	}
 }
 
 // GetProductByID ...

@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/graphql-go/graphql"
+	"github.com/jmoiron/sqlx"
 )
 
 // Handler ...
@@ -13,9 +14,9 @@ type Handler struct {
 }
 
 // NewHandler ...
-func NewHandler() *Handler {
+func NewHandler(db *sqlx.DB) *Handler {
 	return &Handler{
-		svc: NewService(),
+		svc: NewService(db),
 	}
 }
 

@@ -1,13 +1,17 @@
 package product
 
+import "github.com/jmoiron/sqlx"
+
 // Service ...
 type Service struct {
 	repo *Repository
 }
 
 // NewService ...
-func NewService() *Service {
-	return &Service{}
+func NewService(db *sqlx.DB) *Service {
+	return &Service{
+		repo: newRepository(db),
+	}
 }
 
 // GetProductByID ...
