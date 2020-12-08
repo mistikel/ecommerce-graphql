@@ -40,7 +40,6 @@ func (h *Handler) createProductHandler(p graphql.ResolveParams) (interface{}, er
 	product := Product{
 		ID:    int64(rand.Intn(100000)), // generate random ID
 		Name:  p.Args["name"].(string),
-		Info:  p.Args["info"].(string),
 		Price: p.Args["price"].(float64),
 	}
 	return h.svc.CreateProduct(product)
@@ -49,16 +48,12 @@ func (h *Handler) createProductHandler(p graphql.ResolveParams) (interface{}, er
 func (h *Handler) updateProductHandler(p graphql.ResolveParams) (interface{}, error) {
 	id, _ := p.Args["id"].(int)
 	name, nameOk := p.Args["name"].(string)
-	info, infoOk := p.Args["info"].(string)
 	price, priceOk := p.Args["price"].(float64)
 	product := Product{
 		ID: int64(id),
 	}
 	if nameOk {
 		product.Name = name
-	}
-	if infoOk {
-		product.Info = info
 	}
 	if priceOk {
 		product.Price = price

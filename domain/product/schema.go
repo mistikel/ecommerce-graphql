@@ -14,11 +14,101 @@ var productType = graphql.NewObject(
 			"name": &graphql.Field{
 				Type: graphql.String,
 			},
-			"info": &graphql.Field{
+			"description": &graphql.Field{
+				Type: graphql.String,
+			},
+			"category": &graphql.Field{
+				Type: graphql.String,
+			},
+			"subCategory": &graphql.Field{
+				Type: graphql.String,
+			},
+			"images": &graphql.Field{
+				Type: graphql.NewList(graphql.String),
+			},
+			"price": &graphql.Field{
+				Type: graphql.Float,
+			},
+			"comparePrice": &graphql.Field{
+				Type: graphql.Float,
+			},
+			"costPerItem": &graphql.Field{
+				Type: graphql.Float,
+			},
+			"shippingCost": &graphql.Field{
+				Type: graphql.Float,
+			},
+			"isChargeTax": &graphql.Field{
+				Type: graphql.Boolean,
+			},
+			"sku": &graphql.Field{
+				Type: graphql.String,
+			},
+			"quantity": &graphql.Field{
+				Type: graphql.Int,
+			},
+			"variant": &graphql.Field{
+				Type: variantType,
+			},
+			"shipping": &graphql.Field{
+				Type: shippingType,
+			},
+			"seo": &graphql.Field{
+				Type: seoType,
+			},
+		},
+	},
+)
+
+var variantType = graphql.NewObject(
+	graphql.ObjectConfig{
+		Name: "Variant",
+		Fields: graphql.Fields{
+			"id": &graphql.Field{
+				Type: graphql.Int,
+			},
+			"skuVariant": &graphql.Field{
 				Type: graphql.String,
 			},
 			"price": &graphql.Field{
 				Type: graphql.Float,
+			},
+			"quantuty": &graphql.Field{
+				Type: graphql.Int,
+			},
+		},
+	},
+)
+
+var shippingType = graphql.NewObject(
+	graphql.ObjectConfig{
+		Name: "Shipping",
+		Fields: graphql.Fields{
+			"weight": &graphql.Field{
+				Type: graphql.Float,
+			},
+			"rate": &graphql.Field{
+				Type: graphql.String,
+			},
+		},
+	},
+)
+
+var seoType = graphql.NewObject(
+	graphql.ObjectConfig{
+		Name: "Seo",
+		Fields: graphql.Fields{
+			"auto": &graphql.Field{
+				Type: graphql.Boolean,
+			},
+			"pageTitle": &graphql.Field{
+				Type: graphql.String,
+			},
+			"description": &graphql.Field{
+				Type: graphql.String,
+			},
+			"tags": &graphql.Field{
+				Type: graphql.NewList(graphql.String),
 			},
 		},
 	},
