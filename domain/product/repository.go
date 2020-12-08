@@ -1,7 +1,7 @@
 package product
 
 import (
-	"ecommerce/database"
+	"context"
 
 	"gorm.io/gorm"
 )
@@ -12,16 +12,15 @@ type Repository struct {
 }
 
 // newRepository ...
-func newRepository() *Repository {
+func newRepository(db *gorm.DB) *Repository {
 	r := &Repository{
-		db: database.Get(),
+		db: db,
 	}
-	r.db.AutoMigrate(&Variant{}, &Shipping{}, &Seo{}, &Product{})
 	return r
 }
 
 // GetProductByID ...
-func (r *Repository) GetProductByID(id int) (Product, error) {
+func (r *Repository) GetProductByID(ctx context.Context, id int) (Product, error) {
 	var p Product
 	result := r.db.Find(&p, id)
 	if result.Error != nil {
@@ -31,7 +30,7 @@ func (r *Repository) GetProductByID(id int) (Product, error) {
 }
 
 // GetProducts ...
-func (r *Repository) GetProducts() ([]Product, error) {
+func (r *Repository) GetProducts(ctx context.Context) ([]Product, error) {
 	var ps []Product
 	result := r.db.Find(&ps)
 	if result.Error != nil {
@@ -41,7 +40,7 @@ func (r *Repository) GetProducts() ([]Product, error) {
 }
 
 // CreateProduct ...
-func (r *Repository) CreateProduct(product Product) (Product, error) {
+func (r *Repository) CreateProduct(ctx context.Context, product Product) (Product, error) {
 	result := r.db.Create(&product)
 	if result.Error != nil {
 		return Product{}, result.Error
@@ -50,7 +49,7 @@ func (r *Repository) CreateProduct(product Product) (Product, error) {
 }
 
 // UpdateProduct ...
-func (r *Repository) UpdateProduct(product Product) (Product, error) {
+func (r *Repository) UpdateProduct(ctx context.Context, product Product) (Product, error) {
 	result := r.db.Save(&product)
 	if result.Error != nil {
 		return Product{}, result.Error
@@ -59,7 +58,7 @@ func (r *Repository) UpdateProduct(product Product) (Product, error) {
 }
 
 // DeleteProduct ...
-func (r *Repository) DeleteProduct(id int) (Product, error) {
+func (r *Repository) DeleteProduct(ctx context.Context, id int) (Product, error) {
 	result := r.db.Delete(&Product{}, id)
 	if result.Error != nil {
 		return Product{}, result.Error
