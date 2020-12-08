@@ -11,6 +11,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/extension"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/fatih/color"
 	"github.com/gorilla/mux"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -50,5 +51,8 @@ func (s *Server) Serve() {
 	srv.Use(extension.FixedComplexityLimit(300))
 	s.router.Handle("/graphql", srv).Methods("POST")
 	s.router.HandleFunc("/", playground.Handler("api-gateway", "/graphql")).Methods("GET")
+
+	color.Green("Listening on localhost:8080\n")
+	color.Green("Visit `http://localhost:8080` in your browser\n")
 	http.ListenAndServe(":8080", s.router)
 }
