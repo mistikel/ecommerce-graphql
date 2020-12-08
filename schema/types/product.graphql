@@ -1,0 +1,76 @@
+type Product @goModel(model: "ecommerce/domain/product.Product") {
+    id: Int!
+    name: String!
+    description: String!
+    category: String!
+    subCategory: String!
+    images: String!
+    price: Float!
+    comparePrice: Float!
+    costPerItem: Float!
+    shippingCost: Float!
+    isChargeTax: Boolean!
+    sku: String!
+    quantity: Int!
+    shipping: Shipping!
+    seo: Seo!
+    variant: [Variant]
+}
+
+type Variant @goModel(model: "ecommerce/domain/product.Variant") {
+    id: Int!
+    productId: Int!
+    skuVariant: String!
+    price: Float!
+    quantity: Int!
+}
+
+type Shipping @goModel(model: "ecommerce/domain/product.Shipping") {
+    id: Int!
+    productId: Int!
+    weight: Float!
+    rate: String!
+}
+
+type Seo @goModel(model: "ecommerce/domain/product.Seo") {
+    id: Int!
+    productId: Int!
+    auto: Boolean!
+    pageTitle: String!
+    description: String!
+    tags: String!
+}
+
+
+input Input @goModel(model: "ecommerce/domain/product.Input") {
+    name: String!
+    description: String!
+    category: String!
+    subCategory: String!
+    images: String!
+    price: Float!
+    comparePrice: Float!
+    costPerItem: Float!
+    shippingCost: Float!
+    isChargeTax: Boolean!
+    sku: String!
+    quantity: Int! 
+}
+
+type VariantInput @goModel(model: "ecommerce/domain/product.VariantInput") {
+    skuVariant: String!
+    price: Float!
+    quantity: Int!
+}
+
+type ShippingInput @goModel(model: "ecommerce/domain/product.ShippingInput") {
+    weight: Float!
+    rate: String!
+}
+
+type SeoInput @goModel(model: "ecommerce/domain/product.SeoInput") {
+    auto: Boolean!
+    pageTitle: String!
+    description: String!
+    tags: String!
+}
