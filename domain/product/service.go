@@ -1,14 +1,16 @@
 package product
 
+import "gorm.io/gorm"
+
 // Service ...
 type Service struct {
 	repo *Repository
 }
 
 // NewService ...
-func NewService() *Service {
+func NewService(db *gorm.DB) *Service {
 	return &Service{
-		repo: newRepository(),
+		repo: newRepository(db),
 	}
 }
 

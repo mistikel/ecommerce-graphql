@@ -1,51 +1,49 @@
 package server
 
 import (
-	"encoding/json"
-	"fmt"
+	"ecommerce/domain/product"
+	"ecommerce/graph/generated"
+	"ecommerce/resolvers"
+	"log"
 	"net/http"
 
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/handler/extension"
+	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/gorilla/mux"
-	"github.com/graphql-go/graphql"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 // Server ...
 type Server struct {
-	router *mux.Router
-	schema *Schema
+	router     *mux.Router
+	productSvc *product.Service
 }
 
 // New ...
 func New() *Server {
-	s := &Server{
-		router: mux.NewRouter(),
-		schema: NewSchema(),
+	db, err := gorm.Open(sqlite.Open("ecommerce.db"), &gorm.Config{})
+	if err != nil {
+		log.Fatal("Couldn't initiate db")
 	}
-	s.schema.initSchema()
+	s := &Server{
+		productSvc: product.NewService(db),
+		router:     mux.NewRouter(),
+	}
 	return s
 }
 
 // Serve ...
 func (s *Server) Serve() {
-	s.router.HandleFunc("/graphql", s.graphQLHandler).Methods("POST")
-	http.ListenAndServe(":8080", s.router)
-}
-
-func (s *Server) graphQLHandler(w http.ResponseWriter, req *http.Request) {
-	var d Data
-	if err := json.NewDecoder(req.Body).Decode(&d); err != nil {
-		w.WriteHeader(400)
-		return
-	}
-	result := graphql.Do(graphql.Params{
-		Context:        req.Context(),
-		Schema:         s.schema.Schema,
-		RequestString:  d.Query,
-		VariableValues: d.Variables,
-		OperationName:  d.Operation,
+	schema := generated.NewExecutableSchema(generated.Config{
+		Resolvers:  &resolvers.Resolver{},
+		Directives: generated.DirectiveRoot{},
+		Complexity: generated.ComplexityRoot{},
 	})
-	w.Header().Set("Content-Type", "application/json")
-	if err := json.NewEncoder(w).Encode(result); err != nil {
-		fmt.Printf("could not write result to response: %s", err)
-	}
+	srv := handler.NewDefaultServer(schema)
+	srv.Use(extension.FixedComplexityLimit(300))
+	s.router.Handle("/graphql", srv).Methods("POST")
+	s.router.HandleFunc("/", playground.Handler("api-gateway", "/graphql")).Methods("GET")
+	http.ListenAndServe(":8080", s.router)
 }

@@ -1,8 +1,6 @@
 package product
 
 import (
-	"ecommerce/database"
-
 	"gorm.io/gorm"
 )
 
@@ -12,9 +10,9 @@ type Repository struct {
 }
 
 // newRepository ...
-func newRepository() *Repository {
+func newRepository(db *gorm.DB) *Repository {
 	r := &Repository{
-		db: database.Get(),
+		db: db,
 	}
 	r.db.AutoMigrate(&Variant{}, &Shipping{}, &Seo{}, &Product{})
 	return r
