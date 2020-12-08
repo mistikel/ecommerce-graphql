@@ -1,6 +1,9 @@
 package product
 
-import "github.com/jmoiron/sqlx"
+import (
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/jmoiron/sqlx"
+)
 
 var products = []Product{
 	{

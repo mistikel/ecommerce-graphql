@@ -12,7 +12,7 @@ type Config struct {
 	Port                 string `envconfig:"port"`
 	MysqlHost            string `envconfig:"mysql_host" default:"localhost"`
 	MysqlUsername        string `envconfig:"mysql_username" default:"root"`
-	MysqlPassword        string `envconfig:"mysql_password" default:"root-is-not-used"`
+	MysqlPassword        string `envconfig:"mysql_password" default:"root"`
 	MysqlConnectionLimit int    `envconfig:"mysql_connection_limit" default:"40"`
 	MysqlDatabase        string `envconfig:"mysql_database" default:"ecommerce"`
 }
