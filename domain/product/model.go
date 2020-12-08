@@ -9,7 +9,7 @@ import (
 // Product ...
 type Product struct {
 	gorm.Model
-	ID             int64     `json:"id"`
+	ID             int       `json:"id"`
 	Name           string    `json:"name"`
 	Description    string    `json:"description"`
 	Category       string    `json:"category"`
@@ -21,7 +21,7 @@ type Product struct {
 	ShippingCost   float64   `json:"shippingCost"`
 	IsChargeTax    bool      `json:"isChargeTax"`
 	SKU            string    `json:"sku"`
-	Quantity       int64     `json:"quantity"`
+	Quantity       int       `json:"quantity"`
 	Shipping       Shipping  `json:"shipping"`
 	IsVariantExist bool      `json:"isVariantExist"`
 	Variants       []Variant `json:"variant"`
@@ -41,7 +41,7 @@ type Input struct {
 	ShippingCost   float64        `json:"shippingCost"`
 	IsChargeTax    bool           `json:"isChargeTax"`
 	SKU            string         `json:"sku"`
-	Quantity       int64          `json:"quantity"`
+	Quantity       int            `json:"quantity"`
 	Shipping       ShippingInput  `json:"shipping"`
 	IsVariantExist bool           `json:"isVariantExist"`
 	Variants       []VariantInput `json:"variant"`
@@ -51,8 +51,8 @@ type Input struct {
 // Shipping ...
 type Shipping struct {
 	gorm.Model
-	ID        int64   `json:"id"`
-	ProductID int64   `json:"productId"`
+	ID        int     `json:"id"`
+	ProductID int     `json:"productId"`
 	Weight    float64 `json:"weight"`
 	Rate      string  `json:"rate"`
 }
@@ -66,25 +66,25 @@ type ShippingInput struct {
 // Variant ...
 type Variant struct {
 	gorm.Model
-	ID         int64   `json:"id"`
-	ProductID  int64   `json:"productId"`
+	ID         int     `json:"id"`
+	ProductID  int     `json:"productId"`
 	SKUVariant string  `json:"skuVariant"`
 	Price      float64 `json:"price"`
-	Quantity   int64   `json:"quantity"`
+	Quantity   int     `json:"quantity"`
 }
 
 // VariantInput ...
 type VariantInput struct {
 	SKUVariant string  `json:"skuVariant"`
 	Price      float64 `json:"price"`
-	Quantity   int64   `json:"quantity"`
+	Quantity   int     `json:"quantity"`
 }
 
 // Seo ...
 type Seo struct {
 	gorm.Model
-	ID          int64  `json:"id"`
-	ProductID   int64  `json:"productId"`
+	ID          int    `json:"id"`
+	ProductID   int    `json:"productId"`
 	Auto        bool   `json:"auto"`
 	PageTitle   string `json:"pageTitle"`
 	Description string `json:"description"`
@@ -100,9 +100,12 @@ type SeoInput struct {
 }
 
 // ToProduct ...
-func (i *Input) ToProduct() Product {
+func (i *Input) ToProduct(id *int) Product {
 	var p Product
-	p.ID = int64(rand.Intn(100000))
+	if id == nil {
+		*id = int(rand.Intn(100000))
+	}
+	p.ID = *id
 	p.Name = i.Name
 	p.Description = i.Description
 	p.Category = i.Category
@@ -127,9 +130,9 @@ func (i *Input) ToProduct() Product {
 	return p
 }
 
-func (v *VariantInput) toVariant(productID int64) Variant {
+func (v *VariantInput) toVariant(productID int) Variant {
 	var variant Variant
-	variant.ID = int64(rand.Intn(100000))
+	variant.ID = int(rand.Intn(100000))
 	variant.ProductID = productID
 	variant.SKUVariant = v.SKUVariant
 	variant.Price = v.Price
@@ -137,18 +140,18 @@ func (v *VariantInput) toVariant(productID int64) Variant {
 	return variant
 }
 
-func (s *ShippingInput) toShipping(productID int64) Shipping {
+func (s *ShippingInput) toShipping(productID int) Shipping {
 	var shipping Shipping
-	shipping.ID = int64(rand.Intn(100000))
+	shipping.ID = int(rand.Intn(100000))
 	shipping.ProductID = productID
 	shipping.Weight = s.Weight
 	shipping.Rate = s.Rate
 	return shipping
 }
 
-func (s *SeoInput) toSeo(productID int64) Seo {
+func (s *SeoInput) toSeo(productID int) Seo {
 	var seo Seo
-	seo.ID = int64(rand.Intn(100000))
+	seo.ID = int(rand.Intn(100000))
 	seo.ProductID = productID
 	seo.Auto = s.Auto
 	seo.PageTitle = s.PageTitle

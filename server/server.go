@@ -1,6 +1,7 @@
 package server
 
 import (
+	"ecommerce/database"
 	"ecommerce/domain/product"
 	"ecommerce/graph/generated"
 	"ecommerce/resolvers"
@@ -26,6 +27,10 @@ func New() *Server {
 	db, err := gorm.Open(sqlite.Open("ecommerce.db"), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Couldn't initiate db")
+	}
+	err = database.Seed(db)
+	if err != nil {
+		log.Fatal(err)
 	}
 	s := &Server{
 		productSvc: product.NewService(db),

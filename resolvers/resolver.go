@@ -13,7 +13,27 @@ type Resolver struct {
 }
 
 func (r *mutationResolver) ProductCreate(ctx context.Context, product product.Input) (*product.Product, error) {
-	panic("not implemented")
+	p, err := r.productSvc.CreateProduct(ctx, product.ToProduct(nil))
+	if err != nil {
+		return nil, err
+	}
+	return &p, nil
+}
+
+func (r *mutationResolver) ProductUpdate(ctx context.Context, id int, product product.Input) (*product.Product, error) {
+	p, err := r.productSvc.UpdateProduct(ctx, id, product.ToProduct(&id))
+	if err != nil {
+		return nil, err
+	}
+	return &p, nil
+}
+
+func (r *mutationResolver) ProductDelete(ctx context.Context, id int) (*product.Product, error) {
+	p, err := r.productSvc.DeleteProduct(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	return &p, nil
 }
 
 func (r *productResolver) Variant(ctx context.Context, obj *product.Product) ([]*product.Variant, error) {
@@ -21,11 +41,19 @@ func (r *productResolver) Variant(ctx context.Context, obj *product.Product) ([]
 }
 
 func (r *queryResolver) Product(ctx context.Context, id int) (*product.Product, error) {
-	panic("not implemented")
+	p, err := r.productSvc.GetProductByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	return &p, nil
 }
 
-func (r *queryResolver) Products(ctx context.Context, limit *int, offset *int) ([]product.Product, error) {
-	panic("not implemented")
+func (r *queryResolver) Products(ctx context.Context) ([]product.Product, error) {
+	p, err := r.productSvc.GetProducts(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return p, nil
 }
 
 // Mutation returns generated.MutationResolver implementation.

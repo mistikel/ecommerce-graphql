@@ -1,6 +1,10 @@
 package product
 
-import "gorm.io/gorm"
+import (
+	"context"
+
+	"gorm.io/gorm"
+)
 
 // Service ...
 type Service struct {
@@ -15,26 +19,26 @@ func NewService(db *gorm.DB) *Service {
 }
 
 // GetProductByID ...
-func (s *Service) GetProductByID(id int) (Product, error) {
-	return s.repo.GetProductByID(id)
+func (s *Service) GetProductByID(ctx context.Context, id int) (Product, error) {
+	return s.repo.GetProductByID(ctx, id)
 }
 
 // GetProducts ...
-func (s *Service) GetProducts() ([]Product, error) {
-	return s.repo.GetProducts()
+func (s *Service) GetProducts(ctx context.Context) ([]Product, error) {
+	return s.repo.GetProducts(ctx)
 }
 
 // CreateProduct ...
-func (s *Service) CreateProduct(product Product) (Product, error) {
-	return s.repo.CreateProduct(product)
+func (s *Service) CreateProduct(ctx context.Context, product Product) (Product, error) {
+	return s.repo.CreateProduct(ctx, product)
 }
 
 // UpdateProduct ...
-func (s *Service) UpdateProduct(product Product) (Product, error) {
-	return s.repo.UpdateProduct(product)
+func (s *Service) UpdateProduct(ctx context.Context, id int, product Product) (Product, error) {
+	return s.repo.UpdateProduct(ctx, product)
 }
 
 // DeleteProduct ...
-func (s *Service) DeleteProduct(id int) (Product, error) {
-	return s.repo.DeleteProduct(id)
+func (s *Service) DeleteProduct(ctx context.Context, id int) (Product, error) {
+	return s.repo.DeleteProduct(ctx, id)
 }
