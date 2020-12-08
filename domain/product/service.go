@@ -1,16 +1,14 @@
 package product
 
-import "github.com/jmoiron/sqlx"
-
 // Service ...
 type Service struct {
 	repo *Repository
 }
 
 // NewService ...
-func NewService(db *sqlx.DB) *Service {
+func NewService() *Service {
 	return &Service{
-		repo: newRepository(db),
+		repo: newRepository(),
 	}
 }
 

@@ -1,6 +1,8 @@
 package main
 
-import "ecommerce/server"
+import (
+	"ecommerce/server"
+)
 
 func main() {
 	srv := server.New()

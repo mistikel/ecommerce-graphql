@@ -1,80 +1,68 @@
 package product
 
 import (
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jmoiron/sqlx"
-)
+	"ecommerce/database"
 
-var products = []Product{
-	{
-		ID:    1,
-		Name:  "Chicha Morada",
-		Price: 7.99,
-	},
-	{
-		ID:    2,
-		Name:  "Chicha de jora",
-		Price: 5.95,
-	},
-	{
-		ID:    3,
-		Name:  "Pisco",
-		Price: 9.95,
-	},
-}
+	"gorm.io/gorm"
+)
 
 // Repository ...
 type Repository struct {
-	db *sqlx.DB
+	db *gorm.DB
 }
 
 // newRepository ...
-func newRepository(db *sqlx.DB) *Repository {
-	return &Repository{
-		db: db,
+func newRepository() *Repository {
+	r := &Repository{
+		db: database.Get(),
 	}
+	r.db.AutoMigrate(&Variant{}, &Shipping{}, &Seo{}, &Product{})
+	return r
 }
 
 // GetProductByID ...
 func (r *Repository) GetProductByID(id int) (Product, error) {
-	for _, product := range products {
-		if int(product.ID) == id {
-			return product, nil
-		}
+	var p Product
+	result := r.db.Find(&p, id)
+	if result.Error != nil {
+		return Product{}, result.Error
 	}
-	return Product{}, nil
+	return p, nil
 }
 
 // GetProducts ...
 func (r *Repository) GetProducts() ([]Product, error) {
-	return products, nil
+	var ps []Product
+	result := r.db.Find(&ps)
+	if result.Error != nil {
+		return []Product{}, result.Error
+	}
+	return ps, nil
 }
 
 // CreateProduct ...
 func (r *Repository) CreateProduct(product Product) (Product, error) {
-	products = append(products, product)
+	result := r.db.Create(&product)
+	if result.Error != nil {
+		return Product{}, result.Error
+	}
 	return product, nil
 }
 
 // UpdateProduct ...
 func (r *Repository) UpdateProduct(product Product) (Product, error) {
-	for i, p := range products {
-		if p.ID == product.ID {
-			products[i].Name = product.Name
-			products[i].Price = product.Price
-		}
+	result := r.db.Save(&product)
+	if result.Error != nil {
+		return Product{}, result.Error
 	}
 	return product, nil
 }
 
 // DeleteProduct ...
 func (r *Repository) DeleteProduct(id int) (Product, error) {
-	product := Product{}
-	for i, p := range products {
-		if int64(id) == p.ID {
-			product = products[i]
-			products = append(products[:i], products[i+1:]...)
-		}
+	result := r.db.Delete(&Product{}, id)
+	if result.Error != nil {
+		return Product{}, result.Error
 	}
-	return product, nil
+	return Product{}, nil
 }

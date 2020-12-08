@@ -1,13 +1,16 @@
 package product
 
+import "gorm.io/gorm"
+
 // Product ...
 type Product struct {
+	gorm.Model
 	ID             int64     `json:"id"`
 	Name           string    `json:"name"`
 	Description    string    `json:"description"`
 	Category       string    `json:"category"`
 	SubCategory    string    `json:"subCategory"`
-	Images         []string  `json:"images"`
+	Images         string    `json:"images"`
 	Price          float64   `json:"price"`
 	ComparePrice   float64   `json:"comparePrice"`
 	CostPerItem    float64   `json:"costPerItem"`
@@ -17,19 +20,24 @@ type Product struct {
 	Quantity       int64     `json:"quantity"`
 	Shipping       Shipping  `json:"shipping"`
 	IsVariantExist bool      `json:"isVariantExist"`
-	Variant        []Variant `json:"variant"`
+	Variants       []Variant `json:"variant"`
 	Seo            Seo       `json:"seo"`
 }
 
 // Shipping ...
 type Shipping struct {
-	Weight float64 `json:"weight"`
-	Rate   string  `json:"rate"`
+	gorm.Model
+	ID        int64   `json:"id"`
+	ProductID int64   `json:"productId"`
+	Weight    float64 `json:"weight"`
+	Rate      string  `json:"rate"`
 }
 
 // Variant ...
 type Variant struct {
+	gorm.Model
 	ID         int64   `json:"id"`
+	ProductID  int64   `json:"productId"`
 	SKUVariant string  `json:"skuVariant"`
 	Price      float64 `json:"price"`
 	Quantity   int64   `json:"quantity"`
@@ -37,8 +45,11 @@ type Variant struct {
 
 // Seo ...
 type Seo struct {
-	Auto        bool     `json:"auto"`
-	PageTitle   string   `json:"pageTitle"`
-	Description string   `json:"description"`
-	Tags        []string `json:"tags"`
+	gorm.Model
+	ID          int64  `json:"id"`
+	ProductID   int64  `json:"productId"`
+	Auto        bool   `json:"auto"`
+	PageTitle   string `json:"pageTitle"`
+	Description string `json:"description"`
+	Tags        string `json:"tags"`
 }
