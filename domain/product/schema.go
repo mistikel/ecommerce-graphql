@@ -174,9 +174,6 @@ func (s *Schema) setMutation() {
 				"name": &graphql.ArgumentConfig{
 					Type: graphql.NewNonNull(graphql.String),
 				},
-				"info": &graphql.ArgumentConfig{
-					Type: graphql.String,
-				},
 				"price": &graphql.ArgumentConfig{
 					Type: graphql.NewNonNull(graphql.Float),
 				},
@@ -191,9 +188,6 @@ func (s *Schema) setMutation() {
 					Type: graphql.NewNonNull(graphql.Int),
 				},
 				"name": &graphql.ArgumentConfig{
-					Type: graphql.String,
-				},
-				"info": &graphql.ArgumentConfig{
 					Type: graphql.String,
 				},
 				"price": &graphql.ArgumentConfig{
