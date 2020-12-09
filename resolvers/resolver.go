@@ -9,11 +9,11 @@ import (
 )
 
 type Resolver struct {
-	productSvc *product.Service
+	ProductSvc *product.Service
 }
 
 func (r *mutationResolver) ProductCreate(ctx context.Context, product product.Input) (*product.Product, error) {
-	p, err := r.productSvc.CreateProduct(ctx, product.ToProduct(nil))
+	p, err := r.ProductSvc.CreateProduct(ctx, product.ToProduct(nil))
 	if err != nil {
 		return nil, err
 	}
@@ -21,7 +21,7 @@ func (r *mutationResolver) ProductCreate(ctx context.Context, product product.In
 }
 
 func (r *mutationResolver) ProductUpdate(ctx context.Context, id int, product product.Input) (*product.Product, error) {
-	p, err := r.productSvc.UpdateProduct(ctx, id, product.ToProduct(&id))
+	p, err := r.ProductSvc.UpdateProduct(ctx, id, product.ToProduct(&id))
 	if err != nil {
 		return nil, err
 	}
@@ -29,7 +29,7 @@ func (r *mutationResolver) ProductUpdate(ctx context.Context, id int, product pr
 }
 
 func (r *mutationResolver) ProductDelete(ctx context.Context, id int) (*product.Product, error) {
-	p, err := r.productSvc.DeleteProduct(ctx, id)
+	p, err := r.ProductSvc.DeleteProduct(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +41,7 @@ func (r *productResolver) Variant(ctx context.Context, obj *product.Product) ([]
 }
 
 func (r *queryResolver) Product(ctx context.Context, id int) (*product.Product, error) {
-	p, err := r.productSvc.GetProductByID(ctx, id)
+	p, err := r.ProductSvc.GetProductByID(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -49,7 +49,7 @@ func (r *queryResolver) Product(ctx context.Context, id int) (*product.Product, 
 }
 
 func (r *queryResolver) Products(ctx context.Context) ([]product.Product, error) {
-	p, err := r.productSvc.GetProducts(ctx)
+	p, err := r.ProductSvc.GetProducts(ctx)
 	if err != nil {
 		return nil, err
 	}

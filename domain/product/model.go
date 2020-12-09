@@ -102,10 +102,10 @@ type SeoInput struct {
 // ToProduct ...
 func (i *Input) ToProduct(id *int) Product {
 	var p Product
-	if id == nil {
-		*id = int(rand.Intn(100000))
+	p.ID = int(rand.Intn(100000))
+	if id != nil {
+		p.ID = *id
 	}
-	p.ID = *id
 	p.Name = i.Name
 	p.Description = i.Description
 	p.Category = i.Category

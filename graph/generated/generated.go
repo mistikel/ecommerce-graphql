@@ -954,9 +954,9 @@ func (ec *executionContext) _Product_id(ctx context.Context, field graphql.Colle
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int64)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNInt2int64(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Product_name(ctx context.Context, field graphql.CollectedField, obj *product.Product) (ret graphql.Marshaler) {
@@ -1374,9 +1374,9 @@ func (ec *executionContext) _Product_quantity(ctx context.Context, field graphql
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int64)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNInt2int64(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Product_shipping(ctx context.Context, field graphql.CollectedField, obj *product.Product) (ret graphql.Marshaler) {
@@ -1656,9 +1656,9 @@ func (ec *executionContext) _Seo_id(ctx context.Context, field graphql.Collected
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int64)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNInt2int64(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Seo_productId(ctx context.Context, field graphql.CollectedField, obj *product.Seo) (ret graphql.Marshaler) {
@@ -1691,9 +1691,9 @@ func (ec *executionContext) _Seo_productId(ctx context.Context, field graphql.Co
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int64)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNInt2int64(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Seo_auto(ctx context.Context, field graphql.CollectedField, obj *product.Seo) (ret graphql.Marshaler) {
@@ -2006,9 +2006,9 @@ func (ec *executionContext) _Shipping_id(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int64)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNInt2int64(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Shipping_productId(ctx context.Context, field graphql.CollectedField, obj *product.Shipping) (ret graphql.Marshaler) {
@@ -2041,9 +2041,9 @@ func (ec *executionContext) _Shipping_productId(ctx context.Context, field graph
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int64)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNInt2int64(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Shipping_weight(ctx context.Context, field graphql.CollectedField, obj *product.Shipping) (ret graphql.Marshaler) {
@@ -2216,9 +2216,9 @@ func (ec *executionContext) _Variant_id(ctx context.Context, field graphql.Colle
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int64)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNInt2int64(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Variant_productId(ctx context.Context, field graphql.CollectedField, obj *product.Variant) (ret graphql.Marshaler) {
@@ -2251,9 +2251,9 @@ func (ec *executionContext) _Variant_productId(ctx context.Context, field graphq
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int64)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNInt2int64(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Variant_skuVariant(ctx context.Context, field graphql.CollectedField, obj *product.Variant) (ret graphql.Marshaler) {
@@ -2356,9 +2356,9 @@ func (ec *executionContext) _Variant_quantity(ctx context.Context, field graphql
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int64)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNInt2int64(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _VariantInput_skuVariant(ctx context.Context, field graphql.CollectedField, obj *product.VariantInput) (ret graphql.Marshaler) {
@@ -2461,9 +2461,9 @@ func (ec *executionContext) _VariantInput_quantity(ctx context.Context, field gr
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int64)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNInt2int64(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) ___Directive_name(ctx context.Context, field graphql.CollectedField, obj *introspection.Directive) (ret graphql.Marshaler) {
@@ -4412,21 +4412,6 @@ func (ec *executionContext) unmarshalNInt2int(ctx context.Context, v interface{}
 
 func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.SelectionSet, v int) graphql.Marshaler {
 	res := graphql.MarshalInt(v)
-	if res == graphql.Null {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "must not be null")
-		}
-	}
-	return res
-}
-
-func (ec *executionContext) unmarshalNInt2int64(ctx context.Context, v interface{}) (int64, error) {
-	res, err := graphql.UnmarshalInt64(v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalNInt2int64(ctx context.Context, sel ast.SelectionSet, v int64) graphql.Marshaler {
-	res := graphql.MarshalInt64(v)
 	if res == graphql.Null {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")

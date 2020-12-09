@@ -43,7 +43,9 @@ func New() *Server {
 // Serve ...
 func (s *Server) Serve() {
 	schema := generated.NewExecutableSchema(generated.Config{
-		Resolvers:  &resolvers.Resolver{},
+		Resolvers: &resolvers.Resolver{
+			ProductSvc: s.productSvc,
+		},
 		Directives: generated.DirectiveRoot{},
 		Complexity: generated.ComplexityRoot{},
 	})
