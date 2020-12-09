@@ -9,12 +9,11 @@ import (
 
 // Config ...
 type Config struct {
-	Port                 string `envconfig:"port"`
-	MysqlHost            string `envconfig:"mysql_host" default:"localhost"`
-	MysqlUsername        string `envconfig:"mysql_username" default:"root"`
-	MysqlPassword        string `envconfig:"mysql_password" default:"root"`
-	MysqlConnectionLimit int    `envconfig:"mysql_connection_limit" default:"40"`
-	MysqlDatabase        string `envconfig:"mysql_database" default:"ecommerce"`
+	Port             string `envconfig:"port"`
+	PostgresHost     string `envconfig:"mysql_host" default:"localhost"`
+	PostgresUsername string `envconfig:"mysql_username" default:"ecommerce_user"`
+	PostgresPassword string `envconfig:"mysql_password" default:"ecommerce_password"`
+	PostgresDatabase string `envconfig:"mysql_database" default:"ecommerce"`
 }
 
 var conf Config

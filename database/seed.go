@@ -7,6 +7,6 @@ import (
 )
 
 func Seed(db *gorm.DB) error {
-	db.AutoMigrate(&product.Variant{}, &product.Shipping{}, &product.Seo{}, &product.Product{})
+	db.AutoMigrate(&product.Product{}, &product.Variant{}, &product.Shipping{}, &product.Seo{})
 	return nil
 }

@@ -1,10 +1,12 @@
 package server
 
 import (
+	"ecommerce/config"
 	"ecommerce/database"
 	"ecommerce/domain/product"
 	"ecommerce/graph/generated"
 	"ecommerce/resolvers"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -13,7 +15,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/fatih/color"
 	"github.com/gorilla/mux"
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -25,7 +27,11 @@ type Server struct {
 
 // New ...
 func New() *Server {
-	db, err := gorm.Open(sqlite.Open("ecommerce.db"), &gorm.Config{})
+	conf := config.Get()
+	db, err := gorm.Open(postgres.New(postgres.Config{
+		DSN:                  fmt.Sprintf("host=%s user=%s password=%s DB.name=gorm database=%s sslmode=disable", conf.PostgresHost, conf.PostgresUsername, conf.PostgresPassword, conf.PostgresDatabase),
+		PreferSimpleProtocol: true,
+	}), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Couldn't initiate db")
 	}
