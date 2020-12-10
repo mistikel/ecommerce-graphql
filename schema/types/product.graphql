@@ -1,5 +1,5 @@
-type Product @goModel(model: "ecommerce/domain/product.Product") {
-    id: ID!
+type Product {
+    id: Int!
     name: String!
     description: String!
     category: String!
@@ -18,23 +18,23 @@ type Product @goModel(model: "ecommerce/domain/product.Product") {
     variant: [Variant]
 }
 
-type Variant @goModel(model: "ecommerce/domain/product.Variant") {
-    id: ID!
+type Variant {
+    id: Int!
     productId: Int!
     skuVariant: String!
     price: Float!
     quantity: Int!
 }
 
-type Shipping @goModel(model: "ecommerce/domain/product.Shipping") {
-    id: ID!
+type Shipping {
+    id: Int!
     productId: Int!
     weight: Float!
     rate: String!
 }
 
-type Seo @goModel(model: "ecommerce/domain/product.Seo") {
-    id: ID!
+type Seo {
+    id: Int!
     productId: Int!
     auto: Boolean!
     pageTitle: String!
@@ -43,7 +43,7 @@ type Seo @goModel(model: "ecommerce/domain/product.Seo") {
 }
 
 
-input Input @goModel(model: "ecommerce/domain/product.Input") {
+input Input {
     name: String!
     description: String!
     category: String!
@@ -62,18 +62,18 @@ input Input @goModel(model: "ecommerce/domain/product.Input") {
     shipping: ShippingInput!
 }
 
-input VariantInput @goModel(model: "ecommerce/domain/product.VariantInput") {
+input VariantInput {
     skuVariant: String!
     price: Float!
     quantity: Int!
 }
 
-input ShippingInput @goModel(model: "ecommerce/domain/product.ShippingInput") {
+input ShippingInput {
     weight: Float!
     rate: String!
 }
 
-input SeoInput @goModel(model: "ecommerce/domain/product.SeoInput") {
+input SeoInput {
     auto: Boolean!
     pageTitle: String!
     description: String!
