@@ -9,11 +9,3 @@ scalar Map
 
 # resolves to interface{}
 scalar Any
-
-# resolves to the following struct
-# type Upload struct {
-# 	File     io.Reader
-# 	Filename string
-# 	Size     int64
-# }
-scalar Upload

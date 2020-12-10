@@ -1,4 +1,4 @@
-type Product @goModel(model: "ecommerce/domain/product.Product") {
+type Product {
     id: Int!
     name: String!
     description: String!
@@ -14,10 +14,11 @@ type Product @goModel(model: "ecommerce/domain/product.Product") {
     quantity: Int!
     shipping: Shipping!
     seo: Seo!
+    isVariantExist: Boolean!
     variant: [Variant]
 }
 
-type Variant @goModel(model: "ecommerce/domain/product.Variant") {
+type Variant {
     id: Int!
     productId: Int!
     skuVariant: String!
@@ -25,14 +26,14 @@ type Variant @goModel(model: "ecommerce/domain/product.Variant") {
     quantity: Int!
 }
 
-type Shipping @goModel(model: "ecommerce/domain/product.Shipping") {
+type Shipping {
     id: Int!
     productId: Int!
     weight: Float!
     rate: String!
 }
 
-type Seo @goModel(model: "ecommerce/domain/product.Seo") {
+type Seo {
     id: Int!
     productId: Int!
     auto: Boolean!
@@ -42,7 +43,7 @@ type Seo @goModel(model: "ecommerce/domain/product.Seo") {
 }
 
 
-input Input @goModel(model: "ecommerce/domain/product.Input") {
+input Input {
     name: String!
     description: String!
     category: String!
@@ -55,20 +56,24 @@ input Input @goModel(model: "ecommerce/domain/product.Input") {
     isChargeTax: Boolean!
     sku: String!
     quantity: Int! 
+    isVariantExist: Boolean!
+    variants: [VariantInput!]
+    seo: SeoInput!
+    shipping: ShippingInput!
 }
 
-type VariantInput @goModel(model: "ecommerce/domain/product.VariantInput") {
+input VariantInput {
     skuVariant: String!
     price: Float!
     quantity: Int!
 }
 
-type ShippingInput @goModel(model: "ecommerce/domain/product.ShippingInput") {
+input ShippingInput {
     weight: Float!
     rate: String!
 }
 
-type SeoInput @goModel(model: "ecommerce/domain/product.SeoInput") {
+input SeoInput {
     auto: Boolean!
     pageTitle: String!
     description: String!
