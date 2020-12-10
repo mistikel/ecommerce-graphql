@@ -14,7 +14,7 @@ func (r *mutationResolver) ProductCreate(ctx context.Context, product models.Inp
 }
 
 func (r *mutationResolver) ProductUpdate(ctx context.Context, id int, product models.Input) (*models.Product, error) {
-	return r.ProductSvc.UpdateProduct(ctx, id, product)
+	return r.ProductSvc.UpdateProductByID(ctx, id, product)
 }
 
 func (r *mutationResolver) ProductDelete(ctx context.Context, id int) (*models.Product, error) {

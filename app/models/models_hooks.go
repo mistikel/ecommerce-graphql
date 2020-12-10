@@ -1,24 +1,26 @@
 package models
 
 // ToProduct ...
-func (i *Input) ToProduct() (product Product) {
-	product.Name = i.Name
-	product.Description = i.Description
-	product.Category = i.Category
-	product.SubCategory = i.SubCategory
-	product.Images = i.Images
-	product.Price = i.Price
-	product.ComparePrice = i.ComparePrice
-	product.CostPerItem = i.CostPerItem
-	product.ShippingCost = i.ShippingCost
-	product.IsChargeTax = i.IsChargeTax
-	product.Sku = i.Sku
-	product.Quantity = i.Quantity
-	product.IsVariantExist = i.IsVariantExist
-	return
+func (i *Input) ToProduct() *Product {
+	return &Product{
+		Name:           i.Name,
+		Description:    i.Description,
+		Category:       i.Category,
+		SubCategory:    i.SubCategory,
+		Images:         i.Images,
+		Price:          i.Price,
+		ComparePrice:   i.ComparePrice,
+		CostPerItem:    i.CostPerItem,
+		ShippingCost:   i.ShippingCost,
+		IsChargeTax:    i.IsChargeTax,
+		Sku:            i.Sku,
+		Quantity:       i.Quantity,
+		IsVariantExist: i.IsVariantExist,
+	}
 }
 
-func (v *VariantInput) toVariant(productID int) *Variant {
+// ToVariant ...
+func (v *VariantInput) ToVariant(productID int) *Variant {
 	return &Variant{
 		ProductID:  productID,
 		SkuVariant: v.SkuVariant,
@@ -28,7 +30,8 @@ func (v *VariantInput) toVariant(productID int) *Variant {
 
 }
 
-func (s *ShippingInput) toShipping(productID int) *Shipping {
+// ToShipping ...
+func (s *ShippingInput) ToShipping(productID int) *Shipping {
 	return &Shipping{
 		ProductID: productID,
 		Weight:    s.Weight,
@@ -36,7 +39,8 @@ func (s *ShippingInput) toShipping(productID int) *Shipping {
 	}
 }
 
-func (s *SeoInput) toSeo(productID int) *Seo {
+// ToSeo ...
+func (s *SeoInput) ToSeo(productID int) *Seo {
 	return &Seo{
 		ProductID:   productID,
 		Auto:        s.Auto,
