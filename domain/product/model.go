@@ -1,15 +1,12 @@
 package product
 
 import (
-	"math/rand"
-
 	"gorm.io/gorm"
 )
 
 // Product ...
 type Product struct {
 	gorm.Model
-	ID             int       `json:"id"`
 	Name           string    `json:"name"`
 	Description    string    `json:"description"`
 	Category       string    `json:"category"`
@@ -44,15 +41,14 @@ type Input struct {
 	Quantity       int            `json:"quantity"`
 	Shipping       ShippingInput  `json:"shipping"`
 	IsVariantExist bool           `json:"isVariantExist"`
-	Variants       []VariantInput `json:"variant"`
+	Variants       []VariantInput `json:"variants"`
 	Seo            SeoInput       `json:"seo"`
 }
 
 // Shipping ...
 type Shipping struct {
 	gorm.Model
-	ID        int     `json:"id"`
-	ProductID int     `json:"productId"`
+	ProductID uint    `json:"productId"`
 	Weight    float64 `json:"weight"`
 	Rate      string  `json:"rate"`
 }
@@ -66,8 +62,7 @@ type ShippingInput struct {
 // Variant ...
 type Variant struct {
 	gorm.Model
-	ID         int     `json:"id"`
-	ProductID  int     `json:"productId"`
+	ProductID  uint    `json:"productId"`
 	SKUVariant string  `json:"skuVariant"`
 	Price      float64 `json:"price"`
 	Quantity   int     `json:"quantity"`
@@ -83,8 +78,7 @@ type VariantInput struct {
 // Seo ...
 type Seo struct {
 	gorm.Model
-	ID          int    `json:"id"`
-	ProductID   int    `json:"productId"`
+	ProductID   uint   `json:"productId"`
 	Auto        bool   `json:"auto"`
 	PageTitle   string `json:"pageTitle"`
 	Description string `json:"description"`
@@ -100,12 +94,8 @@ type SeoInput struct {
 }
 
 // ToProduct ...
-func (i *Input) ToProduct(id *int) Product {
+func (i *Input) ToProduct() Product {
 	var p Product
-	p.ID = int(rand.Intn(100000))
-	if id != nil {
-		p.ID = *id
-	}
 	p.Name = i.Name
 	p.Description = i.Description
 	p.Category = i.Category
@@ -130,9 +120,8 @@ func (i *Input) ToProduct(id *int) Product {
 	return p
 }
 
-func (v *VariantInput) toVariant(productID int) Variant {
+func (v *VariantInput) toVariant(productID uint) Variant {
 	var variant Variant
-	variant.ID = int(rand.Intn(100000))
 	variant.ProductID = productID
 	variant.SKUVariant = v.SKUVariant
 	variant.Price = v.Price
@@ -140,18 +129,16 @@ func (v *VariantInput) toVariant(productID int) Variant {
 	return variant
 }
 
-func (s *ShippingInput) toShipping(productID int) Shipping {
+func (s *ShippingInput) toShipping(productID uint) Shipping {
 	var shipping Shipping
-	shipping.ID = int(rand.Intn(100000))
 	shipping.ProductID = productID
 	shipping.Weight = s.Weight
 	shipping.Rate = s.Rate
 	return shipping
 }
 
-func (s *SeoInput) toSeo(productID int) Seo {
+func (s *SeoInput) toSeo(productID uint) Seo {
 	var seo Seo
-	seo.ID = int(rand.Intn(100000))
 	seo.ProductID = productID
 	seo.Auto = s.Auto
 	seo.PageTitle = s.PageTitle
