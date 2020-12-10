@@ -92,7 +92,16 @@ func (p *ProductService) DeleteProduct(ctx context.Context, id int) (*models.Pro
 
 // GetProductByID ...
 func (p *ProductService) GetProductByID(ctx context.Context, id int) (*models.Product, error) {
-	return p.ResolveProductByID(ctx, id)
+	product, err := p.ResolveProductByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	product.Seo, _ = p.ResolveSeoByProductID(ctx, id)
+	product.Shipping, _ = p.ResolveShippingByProductID(ctx, id)
+	if product.IsVariantExist {
+		product.Variant, _ = p.ResolveVariantByProductID(ctx, id)
+	}
+	return product, nil
 }
 
 // GetAllProducts ...

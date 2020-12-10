@@ -32,6 +32,16 @@ func (p *seoRepository) ResolveSeoByID(ctx context.Context, id int) (*models.Seo
 	return seo, nil
 }
 
+func (p *seoRepository) ResolveSeoByProductID(ctx context.Context, id int) (*models.Seo, error) {
+	seo := &models.Seo{}
+	err := p.db.Where("product_id = ?", id).Find(&seo).Error
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	return seo, nil
+}
+
 func (p *seoRepository) ResolveSeos(ctx context.Context) ([]*models.Seo, error) {
 	var seos []*models.Seo
 	err := p.db.Find(&seos).Error

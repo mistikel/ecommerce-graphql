@@ -32,6 +32,16 @@ func (p *shippingRepository) ResolveShippingByID(ctx context.Context, id int) (*
 	return shipping, nil
 }
 
+func (p *shippingRepository) ResolveShippingByProductID(ctx context.Context, id int) (*models.Shipping, error) {
+	shipping := &models.Shipping{}
+	err := p.db.Where("product_id = ?", id).Find(&shipping).Error
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	return shipping, nil
+}
+
 func (p *shippingRepository) ResolveShippings(ctx context.Context) ([]*models.Shipping, error) {
 	var shippings []*models.Shipping
 	err := p.db.Find(&shippings).Error

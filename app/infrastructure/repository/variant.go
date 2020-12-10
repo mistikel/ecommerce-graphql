@@ -32,6 +32,16 @@ func (p *variantRepository) ResolveVariantByID(ctx context.Context, id int) (*mo
 	return variant, nil
 }
 
+func (p *variantRepository) ResolveVariantByProductID(ctx context.Context, id int) ([]*models.Variant, error) {
+	var variants []*models.Variant
+	err := p.db.Where("product_id = ?", id).Find(&variants).Error
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	return variants, nil
+}
+
 func (p *variantRepository) ResolveVariants(ctx context.Context) ([]*models.Variant, error) {
 	var variants []*models.Variant
 	err := p.db.Find(&variants).Error
